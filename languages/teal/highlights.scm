@@ -12,6 +12,8 @@
 ;;     punctuation rule that overrode it
 ;;   - `function a.b()` / `function a:b()`: capture the last name part as
 ;;     @function (the whole-name capture lost to the identifiers' @variable)
+;;   - type references: capture the identifiers inside simple_type and
+;;     type_index instead of the wrapper nodes (same as nvim-treesitter)
 
 
 ;; Primitives
@@ -145,8 +147,10 @@
 
 (type_declaration "type" @keyword)
 (type_declaration (identifier) @type)
-(simple_type) @type
-(type_index) @type
+; Capture the identifiers, not the wrapper nodes, or @variable on the
+; identifiers wins.
+(simple_type name: (identifier) @type)
+(type_index (identifier) @type)
 (type_union "|" @operator)
 (function_type "function" @type)
 
