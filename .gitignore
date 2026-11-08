@@ -1,0 +1,10 @@
+# claude code
+.claude/settings.local.json
+.claude/.cc-writes/
+.claude/worktrees/
+.claude/reference/
+
+# zed dev build artifacts
+grammars/
+*.wasm
+target/
