@@ -14,6 +14,8 @@
 ;;     @function (the whole-name capture lost to the identifiers' @variable)
 ;;   - type references: capture the identifiers inside simple_type and
 ;;     type_index instead of the wrapper nodes (same as nvim-treesitter)
+;;   - `<T is Shape>`: `is` as @keyword (the typeargs rule gave it the
+;;     parameter colour)
 
 
 ;; Primitives
@@ -77,6 +79,9 @@
   . (_) @variable.parameter
   . ("," . (_) @variable.parameter)*
   . ">" @punctuation.bracket)
+; The rule above captures the whole `T is Shape` typearg, which would give
+; `is` the parameter colour.
+(typearg "is" @keyword)
 
 (function_call
   (identifier) @function . (arguments))
