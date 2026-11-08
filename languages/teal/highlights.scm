@@ -10,6 +10,8 @@
 ;; capture emitted last wins, and a node's children are emitted after it:
 ;;   - table constructor braces: moved the @constructor rule below the
 ;;     punctuation rule that overrode it
+;;   - `function a.b()` / `function a:b()`: capture the last name part as
+;;     @function (the whole-name capture lost to the identifiers' @variable)
 
 
 ;; Primitives
@@ -53,6 +55,10 @@
 (function_statement
   "function" @keyword
   . name: (_) @function)
+; For `function a.b.c()` and `function a:b()` the name is a table_function_name,
+; whose identifiers would otherwise win with @variable. Capture the last part.
+(table_function_name entry: (identifier) @function .)
+(table_function_name method: (identifier) @function)
 (anon_function
   "function" @keyword)
 (function_body "end" @keyword)
