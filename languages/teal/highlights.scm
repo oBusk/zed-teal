@@ -1,10 +1,15 @@
 ;; Adapted from tree-sitter-teal's queries/highlights.scm
 ;; (https://github.com/euclidianAce/tree-sitter-teal, MIT, commit ac6b42f).
-;; Changes, all to fit Zed's theme capture names:
+;; Changes to fit Zed's theme capture names:
 ;;   @conditional, @repeat, @keyword.function -> @keyword
 ;;   @parameter        -> @variable.parameter
 ;;   @variable.builtin -> @variable.special
 ;;   removed (ERROR) @error (Zed has no error highlight)
+;;
+;; Fixes for rules that don't take effect as written. In Zed, as in Neovim, the
+;; capture emitted last wins, and a node's children are emitted after it:
+;;   - table constructor braces: moved the @constructor rule below the
+;;     punctuation rule that overrode it
 
 
 ;; Primitives
@@ -17,7 +22,6 @@
 (nil) @constant.builtin
 (number) @number
 (string) @string
-(table_constructor ["{" "}"] @constructor)
 (varargs "..." @constant.builtin)
 [ "," "." ":" ";" ] @punctuation.delimiter
 
@@ -151,6 +155,8 @@
       . attribute: (attribute) @attribute
       . ">" @punctuation.bracket)))
 [ "(" ")" "[" "]" "{" "}" ] @punctuation.bracket
+; Must come after @punctuation.bracket, which would otherwise win.
+(table_constructor ["{" "}"] @constructor)
 
 ;; Only highlight format specifiers in calls to string.format
 ;; string.format('...')
