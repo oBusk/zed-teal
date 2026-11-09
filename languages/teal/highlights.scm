@@ -19,6 +19,7 @@
 ;;
 ;; Additions not in upstream, using vscode-teal's grammar as a reference:
 ;;   - field names as @property
+;;   - `is` / `where` in record and interface headers as @keyword
 
 
 ;; Primitives
@@ -127,6 +128,7 @@
     . [ "macroexp" ] @keyword))
 (record_body (metamethod "metamethod" @keyword))
 (record_body (userdata) @keyword)
+(record_body [ "is" "where" ] @keyword)
 
 ; Contextual keywords in interface bodies
 (interface_declaration
@@ -154,6 +156,7 @@
     . [ "macroexp" ] @keyword))
 (interface_body (metamethod "metamethod" @keyword))
 (interface_body (userdata) @keyword)
+(interface_body [ "is" "where" ] @keyword)
 
 (enum_declaration
   "enum" @keyword
