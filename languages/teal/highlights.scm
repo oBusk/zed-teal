@@ -21,6 +21,7 @@
 ;;   - field names as @property
 ;;   - `is` / `where` in record and interface headers as @keyword
 ;;   - `--#pragma` comments as @preproc
+;;   - `::` around label declarations as @label
 
 
 ;; Primitives
@@ -53,6 +54,9 @@
 [ "for" "while" "repeat" "until" ] @keyword
 [ "in" "local" "return" (break) (goto) "do" "end" ] @keyword
 (label) @label
+; The `::` around a label declaration (`::name::`) are part of the label
+; syntax. They don't occur anywhere else in Teal.
+"::" @label
 
 ;; Global isn't a real keyword, but it gets special treatment in these places
 (var_declaration "global" @keyword)
