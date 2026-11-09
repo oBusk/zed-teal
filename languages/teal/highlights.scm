@@ -20,11 +20,15 @@
 ;; Additions not in upstream, using vscode-teal's grammar as a reference:
 ;;   - field names as @property
 ;;   - `is` / `where` in record and interface headers as @keyword
+;;   - `--#pragma` comments as @preproc
 
 
 ;; Primitives
 (boolean) @boolean
 (comment) @comment
+; Compiler directives such as `--#pragma arity off`
+((comment) @preproc
+  (#match? @preproc "^--#pragma"))
 (shebang_comment) @comment
 (identifier) @variable
 ((identifier) @variable.special
