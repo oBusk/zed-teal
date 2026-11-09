@@ -16,6 +16,9 @@
 ;;     type_index instead of the wrapper nodes (same as nvim-treesitter)
 ;;   - `<T is Shape>`: `is` as @keyword (the typeargs rule gave it the
 ;;     parameter colour)
+;;
+;; Additions not in upstream, using vscode-teal's grammar as a reference:
+;;   - field names as @property
 
 
 ;; Primitives
@@ -33,6 +36,12 @@
 
 (escape_sequence) @string.escape
 (format_specifier) @string.escape
+
+; Field names: record fields, table constructor keys and `a.b` field access.
+; Calls like `a.b()` are captured as @function further down.
+(field key: (identifier) @property)
+(table_entry key: (identifier) @property)
+(index key: (identifier) @property)
 
 ;; Basic statements/Keywords
 [ "if" "then" "elseif" "else" ] @keyword
